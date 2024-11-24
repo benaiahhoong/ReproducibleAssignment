@@ -232,7 +232,7 @@ dev.off()
 
 *Upload your RProject you created for **Question 2** and any files and subfolders used to GitHub. Do not include any identifiers such as your name. Make sure your GitHub repo is public.*
 
-*GitHub link:*
+*GitHub link:* https://github.com/benaiahhoong/ReproducibleAssignment/tree/main
 
 *You will be marked on your repo organisation and readability.*
 
