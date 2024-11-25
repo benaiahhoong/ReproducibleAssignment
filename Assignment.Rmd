@@ -202,7 +202,7 @@ results_figure <- ggplot(adelie_data, aes(x=body_mass_g, y=flipper_length_mm)) +
     x = "Body mass (g)",       #x-axis label
     y = "Flipper length (mm)"  #y-axis label
   ) +
-  annotate("text", x = 4600, y = 212, label = paste("R² =", round(r_squared, 3)), size = 5, color = "red3") +                      #add R-squared value
+  annotate("text", x = 4500, y = 212, label = paste("Adjusted R² =", round(r_squared, 3)), size = 5, color = "red3") +              #add R-squared value
   theme_bw()                   #clean aesthetics
 results_figure
 
@@ -260,7 +260,3 @@ dev.off()
 
 ### e) What are the main barriers for scientists to share their data and code, and what could be done to overcome them? (500-700 words)
 
-- Maitner et al. Code sharing increases citations, but remains uncommon. https://doi.org/10.21203/rs.3.rs-3222221/v1
-- Trisovic et al. A large-scale study on research code quality and execution. https://rdcu.be/dZB7x
-- A Rock-Star Researcher Spun a Web of Lies—and Nearly Got Away with It. https://thewalrus.ca/a-rock-star-researcher-spun-a-web-of-lies-and-nearly-got-away-with-it/
-- Gomes et al. Why don't we share data and code? Perceived barriers and benefits to public archiving practices https://doi.org/10.1098/rspb.2022.1113
