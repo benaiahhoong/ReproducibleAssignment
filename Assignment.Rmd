@@ -1,23 +1,14 @@
 ---
-title: "Assignment"
+title: "Reproducible Science & Figures Assignment"
 output: html_document
 date: "2024-11-23"
 ---
 
 ## QUESTION 01: Data Visualisation for Science Communication
 
-*Create a figure using the Palmer Penguin dataset that is correct but badly communicates the data. **Do not make a boxplot**.*
-
-*Use the following references to guide you:*
-
--   [*https://www.nature.com/articles/533452a*](https://www.nature.com/articles/533452a){.uri}
--   [*https://elifesciences.org/articles/16800*](https://elifesciences.org/articles/16800){.uri}
-
-*Note: Focus on visual elements rather than writing misleading text on it.*
-
 ### a) Provide your figure here:
 
-```{r bad figure code, echo=FALSE}
+```{r bad figure code, echo=FALSE, warning=FALSE, message=FALSE}
 
 library(here)
 library(ggplot2)
@@ -33,67 +24,17 @@ ggplot(penguins_raw, aes(x=`Body Mass (g)`, y=`Flipper Length (mm)`)) + geom_smo
 
 ### b) Write about how your design choices mislead the reader about the underlying data (100-300 words).
 
-# This figure is a linear regression of flipper length against body mass. The first misleading design choice is that the data used for the linear regression comes from three different species of penguins. Even though the regression is accurate, the lack of differentiation of species may hide any underlying species-specific trends, hence misleading readers into thinking that the correlation between body mass and flipper length can be generalised between species even though this is not justified. A better design choice may be to conduct three separate linear regressions, one for each species, and colour them differently, with a legend to label each regression line. Additionally, variation in the data is not shown in the figure. The raw data points were not plotted in the figure and the confidence interval of the regression line is not plotted. These two poor design choices leave the readers without information on the variation in the data. Plotting the raw data uncovers the underlying data and makes it accessible to the readers. Furthermore, the text size of the axes titles and numbers are extremely small and difficult to read. This may cause mistakes in reading the variables and the values in the regression. Increasing the text sizes would imrpove the figure. Lastly, the regression line is plotted in grey against a grey background. This design choice may result in mistakes in identifying the linear regression. A better design choice would choose a more contrasting colour for the regression line so that it stands out against the background.
+This figure is a linear regression of flipper length against body mass. The first misleading design choice is that the data used for the linear regression comes from three different species of penguins. Even though the regression is accurate, the lack of differentiation of species may hide any underlying species-specific trends, hence misleading readers into thinking that the correlation between body mass and flipper length can be generalised between species even though this is not justified. A better design choice may be to conduct three separate linear regressions, one for each species, and colour them differently, with a legend to label each regression line. Additionally, variation in the data is not shown in the figure. The raw data points were not plotted in the figure and the confidence interval of the regression line is not plotted. These two poor design choices leave the readers without information on the variation in the data. Plotting the raw data uncovers the underlying data and makes it accessible to the readers. Furthermore, the text size of the axes titles and numbers are extremely small and difficult to read. This may cause mistakes in reading the variables and the values in the regression. Increasing the text sizes would imrpove the figure. Lastly, the regression line is plotted in grey against a grey background. This design choice makes it difficult to distinguish the actual plotted line from the background. A better design choice would choose a more contrasting colour for the regression line so that it stands out against the background.
 
 ------------------------------------------------------------------------
 
 ## QUESTION 2: Data Pipeline
 
-*Write a data analysis pipeline in your .rmd RMarkdown file. You should be aiming to write a clear explanation of the steps as well as clear code.*
-
-*Your code should include the steps practiced in the lab session:*
-
--   *Load the data*
-
--   *Appropriately clean the data*
-
--   *Create an Exploratory Figure (**not a boxplot**)*
-
--   *Save the figure*
-
--   ***New**: Run a statistical test*
-
--   ***New**: Create a Results Figure*
-
--   *Save the figure*
-
-*An exploratory figure shows raw data, such as the distribution of the data. A results figure demonstrates the stats method chosen, and includes the results of the stats test or model.*
-
-*Between your code, communicate clearly what you are doing and why.*
-
-*Your text should include:*
-
--   *Introduction*
-
--   *Hypothesis*
-
--   *Stats Method*
-
--   *Results*
-
--   *Discussion*
-
--   *Conclusion*
-
-*You will be marked on the following:*
-
-### a) Your code for readability and functionality
-
-### b) Your figures for communication
-
-### c) Your text communication of your analysis
-
-*Below is a template you can use.*
-
-------------------------------------------------------------------------
-
 ### Introduction
 
-# Data pipelines are important in ensuring science and figures are reproducible. Many current research papers present their experimental methodology, but not their methodology in data analysis and figures. This section of the assignment presents a data anlysis pipeline using the Palmer Penguin dataset as an example. It details the precise steps taken when converting raw data into clean data, analysing the cleaned data, and producing figures.
+Data pipelines are important in ensuring science and figures are reproducible. Many current research papers present their experimental methodology, but not their methodology in data analysis and figures. This section of the assignment presents a data analysis pipeline using the Palmer Penguin dataset as an example. It details the precise steps taken when converting raw data into clean data, analysing the cleaned data, and producing figures. I start by loading and cleaning the data so that I can decide on a meaningful and feasible scientific question to ask.
 
-# I start by loading and cleaning the data
-
-```{r Data Cleaning}
+```{r Load Packages, warning=FALSE, message=FALSE}
 
 #load relevant packages
 library(tidyverse)
@@ -103,11 +44,20 @@ library(janitor)
 library(ggplot2)
 library(svglite)
 
-source(here("functions", "cleaning.R")) #load functions that clean data
+```
+
+```{r Data Cleaning}
+
+#load functions that clean data
+source(here("functions", "cleaning.R"))
 
 #load the data
 write_csv(penguins_raw, here("data", "penguins_raw.csv")) #csv file written in the folder "data"
 penguins_raw <- read_csv(here("data", "penguins_raw.csv"), show_col_types = FALSE) #loads the raw data
+
+#visualse the dataframe
+colnames(penguins_raw) #visualise the column names
+penguins_raw #visualise the actual data
 
 #clean data
 penguins_clean <- penguins_raw %>% 
@@ -119,11 +69,15 @@ penguins_clean <- penguins_raw %>%
 
 #save and load the clean data
 write_csv(penguins_clean, here("data", "penguins_clean.csv")) #saves cleaned data in the "data" folder
-penguins_clean <- read_csv(here("data", "penguins_clean.csv"), , show_col_types = FALSE) #load the cleaned data
+penguins_clean <- read_csv(here("data", "penguins_clean.csv"), show_col_types = FALSE) #load the cleaned data
+
+#visualise the cleaned data
+colnames(penguins_clean) #visualise the cleaned column names
+penguins_clean #visualise the actual data
 
 ```
 
-# Having looked through the cleaned penguin data, I am interested in exploring the potential relationship between body mass and flipper length in the three species of penguins. Hence, I will produce an exploratory figure that examines these two variables and save the figure.
+Having looked through the cleaned penguin data, I am interested in exploring the potential relationship between body mass and flipper length in the three species of penguins. Hence, I will produce an exploratory figure that examines these two variables and save the figure.
 
 ```{r Data Exploration}
 #subset the data
@@ -131,7 +85,7 @@ subset <- penguins_clean %>%
   select(species, flipper_length_mm, body_mass_g, )  %>% #subset out species, flipper length, and body mass
   remove_NA()                                            #remove rows with missing values
 
-#define species colours
+#define colours by species
 species_colours <- c("Adelie" = "darkorange",
                      "Chinstrap" = "purple",
                      "Gentoo" = "cyan4")
@@ -141,7 +95,7 @@ exploratory_figure <- ggplot(subset, aes(x = body_mass_g, y = flipper_length_mm,
   geom_point() + #produce scatterplot
   scale_color_manual(values = species_colours) + #change species colours
   labs(
-    x = "Body mass (g)", #x-axis label
+    x = "Body mass (g)",       #x-axis label
     y = "Flipper length (mm)", #y-axis label
     colour = "Species"
   ) +
@@ -160,21 +114,22 @@ dev.off()
 
 ### Hypothesis
 
-#From the exploratory figure above, we observe that flipper length and body mass are positively correlated in all three species of penguins. The Adelie penguins seem to have more dispersed data points and hence a larger variation in the data. Hence, it would be interesting to test if there is a significant linear relationship between body mass and flipper length in the Adelie penguins.
-#Null hypothesis: there is no significant relationship between body mass and flipper length in Adelie penguins
-#Alternative hypothesis: there is a significant relationship between body mass and flipper length in Adelie penguins
+From the exploratory figure above, I observe that flipper length and body mass are positively correlated in all three species of penguins. The Adelie penguins seem to have more dispersed data points and hence a larger variation in the data. Hence, it would be interesting to test if there is a significant linear relationship between body mass and flipper length in the Adelie penguins.
+
+-   Null hypothesis: there is no significant linear relationship between body mass and flipper length in Adelie penguins
+-   Alternative hypothesis: there is a significant linear relationship between body mass and flipper length in Adelie penguins
 
 ### Statistical Methods
 
-#To test if there is a significant relationship between body mass and flipper length in Adelie penguins, I start by filtering the Adelie penguin data from the cleaned dataset. Following which, I fit a linear regression model to predict flipper length using body mass. Finally, I produce diagnostic plots to test if the assumptions of a linear regression are met.
+To test if there is a significant linear relationship between body mass and flipper length in Adelie penguins, I start by filtering the Adelie penguin data from the cleaned dataset. Following which, I fit a linear regression model to predict flipper length from body mass and test for statistical significance. Finally, I produce diagnostic plots to assess if the assumptions of the linear regression are met. Based on the diagnostic plots, assumptions of a linear regression model are met. The Q-Q plot shows that the residuals follow a normal distribution, the scale-location plot shows that the residuals have equal variance, and the residuals vs leverage plot shows that there are no influential cases.
 
 ```{r Statistics}
 
 #filter Adelie penguin data
 adelie_data <- penguins_clean %>% 
   select(species, flipper_length_mm, body_mass_g, )  %>% #subset out species, flipper length, and body mass
-  remove_NA() %>%                                       #remove rows with missing values
-  filter(species == "Adelie")                           #filter Adelie penguin data only
+  remove_NA() %>%                                        #remove rows with missing values
+  filter(species == "Adelie")                            #filter Adelie penguin data only
 
 #statistical analysis
 adelie_regression <- lm(flipper_length_mm ~ body_mass_g, data = adelie_data) #linear regression model
@@ -185,9 +140,10 @@ par(mfrow = c(2, 2)) #create a 2 by 2 grid for diagnostic plots
 plot(adelie_regression) #produce diagnostic plots
 
 ```
+
 ### Results & Discussion
 
-#Having run the statistical analysis, the following code is used to produce a results figure, which will be discussed below.
+Having run the statistical analysis, the following code is used to produce a results figure, which will be discussed below.
 
 ```{r Plotting Results}
 
@@ -202,8 +158,9 @@ results_figure <- ggplot(adelie_data, aes(x=body_mass_g, y=flipper_length_mm)) +
     x = "Body mass (g)",       #x-axis label
     y = "Flipper length (mm)"  #y-axis label
   ) +
-  annotate("text", x = 4500, y = 212, label = paste("Adjusted R² =", round(r_squared, 3)), size = 5, color = "red3") +              #add R-squared value
-  theme_bw()                   #clean aesthetics
+  annotate("text", x = 4500, y = 212, label = paste("Adjusted R² =", round(r_squared, 3)), size = 5, color = "red3") + #add R-squared value
+  theme_bw() #clean aesthetics
+
 results_figure
 
 #save results figure
@@ -216,13 +173,11 @@ dev.off()
 
 ```
 
-#From the output of the linear model, there is a significant linear relationship between body mass and flipper length in Adelie penguins (t=6.47, df=149, p=1.34e-09). Assumptions of a linear regression model are met based on the diagnostics plots. They show that the residuals follow a normal distribution, have equal variance, and there are no influential cases (outliers). Hence, we can reject the null hypothesis and conclude that there is a significant relationship between body mass and flipper length in Adelie penguins.
-
-#However, the adjusted R-squared value of 0.214 is considerably low, meaning that only about 21% of the variation in flipper length can be explained by the variation in body mass. Hence, there may be other more important variables affecting flipper length, such as height. Furthermore, there could be sex differences that were not addressed by this analysis as the dataset contained measurements from both male and female Adelie penguins.
+From the output of the linear model, there is a significant linear relationship between body mass and flipper length in Adelie penguins (t=6.47, df=149, p\<0.001). Hence, we can reject the null hypothesis and conclude that there is a significant linear relationship between body mass and flipper length in Adelie penguins. However, the adjusted R-squared value of 0.214 is considerably low, meaning that only about 21% of the variation in flipper length can be explained by the variation in body mass. Hence, there may be other important variables affecting flipper length. Furthermore, there could be sex differences that were not addressed by this analysis as the dataset contained measurements from both male and female Adelie penguins.
 
 ### Conclusion
 
-#This analysis explored the correlation between body mass and flipper length in penguins using the Palmer Penguin dataset. From the exploratory figure, I decided to analyse the linear relationship between these two variables in the Adelie penguins. Using a linear regression model, I showed that there is a significant linear relationship between body mass and flipper length in Adelie penguins. However, the low adjusted R-squared value showed that the variation in flipper length cannot be fully explained by the variation in body mass. Hence, further investigation into other factors that determine flipper length in Adelie penguins is needed.
+This analysis explored the correlation between body mass and flipper length in penguins using the Palmer Penguin dataset. From the exploratory figure, I decided to analyse the linear relationship between these two variables in the Adelie penguins. Using a linear regression model, I showed that there is a significant linear relationship between body mass and flipper length in Adelie penguins. However, the low adjusted R-squared value showed that the variation in flipper length cannot be fully explained by the variation in body mass. Hence, further investigation into other factors that determine flipper length in Adelie penguins is needed.
 
 ------------------------------------------------------------------------
 
@@ -230,33 +185,62 @@ dev.off()
 
 ### a) GitHub
 
-*Upload your RProject you created for **Question 2** and any files and subfolders used to GitHub. Do not include any identifiers such as your name. Make sure your GitHub repo is public.*
-
-*GitHub link:* https://github.com/benaiahhoong/ReproducibleAssignment/tree/main
-
-*You will be marked on your repo organisation and readability.*
+*GitHub link:* <https://github.com/benaiahhoong/ReproducibleAssignment/tree/main>
 
 ### b) Share your repo with a partner, download, and try to run their data pipeline.
 
-*Partner's GitHub link:*
-
-*You **must** provide this so I can verify there is no plagiarism between you and your partner.*
+*Partner's GitHub link:* <https://github.com/adamblanchflower03/ReproducableFigures>
 
 ### c) Reflect on your experience running their code. (300-500 words)
 
--   *What elements of your partner's code helped you to understand and run their data pipeline?*
+*What elements of your partner's code helped you to understand and run their data pipeline?*
 
--   *Did it run? Did you need to fix anything?*
+-   My partner broke up the code into different subsections and included a header on each subsection that stated what the following code would be doing. He then annotated his code with comments that explained each line of code.
 
--   *What suggestions would you make for improving their code to make it more understandable or reproducible, and why?*
+-   In the code itself, the use of piping was good as it prevented overwriting and clearly communicated the flow of how he cleaned his data.
 
--   *If you needed to alter your partner's figure using their code, do you think that would be easy or difficult, and why?*
+-   The use of created functions for repeated processes such as saving figures as .png and .svg files were very useful as they helped to keep the procedure consistent throughout the analysis pipeline.
+
+-   The output of the statistical analysis was presented in a neat table, which contained relevant and informative statistics.
+
+*Did it run? Did you need to fix anything?*
+
+-   The code ran smoothly and I did not have to fix anything.
+
+*What suggestions would you make for improving their code to make it more understandable or reproducible, and why?*
+
+-   Some of the created functions were only used once in the analysis and hence were unnecessary. For example, functions to plot diagnostic plots and the figures were only used once. To improve understandability and reproducibility, I think that it may be better to simply include the source code for the function in the main code as it better explains the inputs used to generate the figures. Instead, I had to refer to the functions to understand how the figures were created.
+
+*If you needed to alter your partner's figure using their code, do you think that would be easy or difficult, and why?*
+
+-   My partner chose to create his own function for the plotting of the figures. While this makes altering the figure easier in some way, it presents challenges in other ways. The part that was made easier is that I can easily alter the elements of the function to alter the figure. For example, in his function “linear_model_results_figure”, I can change the dataset, the x and y axes datapoints, and the x and y axes labels easily. However, a potential drawback of creating a function to create figures is that it may not be apparent how changes in the elements of the function may correspond to changes in the output. For example, it is not stated in the code whether the data for the x axis or the y axis comes first, and it may result in mistakes if I perceive the order incorrectly. The same can be said for the x and y axes labels, because “xlab” and “ylab” are written into the function and not the main code, it may be difficult to tell which order I am meant to write my labels in when altering the code. This issue can be overcome by referring to the source function and interpreting the code, but failure to do so may result in difficulty altering the figure.
 
 ### d) Reflect on your own code based on your experience with your partner's code and their review of yours. (300-500 words)
 
--   *What improvements did they suggest, and do you agree?*
+*What improvements did they suggest, and do you agree?*
 
--   *What did you learn about writing code for other people?*
+-   My partner suggested directly filtering my adelie_data inside the pipe chain instead of creating a separate variable. I disagree with this because the initial cleaned dataframe was used for me to visualise the data across all the penguin species, which informed my decision to then focus only on adelie penguins. Hence, if I filtered out the adelie penguin data in the first pipe chain, other people handling the code may not be able to visualise the data for the other penguins.
+
+-   My partner also suggested making use of more functions in the project to enhance scalability. I agree with this suggestion as creating functions is a great way of customising a set of existing functions for a specific purpose. I initially felt there was no need to create more functions for this project as I am unlikely to use these functions more than once, but I agree that if I were to be creating and saving more figures, creating functions for these purposes would be more efficient and streamline the code better.
+
+*What did you learn about writing code for other people?*
+
+-   I learnt that writing code for other people has immense value despite not being an easy task. When writing code for other people, it is important to break up the code into logical and understandable subsections, with clear and concise labelling of the sections and annotations within each section. Additionally, it is important to break up long lines of codes into shorter lines to enhance readability and make space for comments to be written next to each line of code. This allows someone who was not involved in the coding process to be able to understand the flow of the code, allowing them to make changes easily. Packages such as here and renv are extremely important to ensure that the same code would be compatible on other computers and versions of R. The here package also allows for better privacy as you do not need to write the names of your working directory and folders into the code.
+
+-   While writing code for other people is not an easy task due to the time and effort needed to organise the code and upload it onto online repositories such as Github, it is extremely useful both for the coder and for others. Writing code with others in mind also includes writing code for your future self. You may choose to return to a project weeks, months, or even years later, and a well-organised and compatible code would be much easier to handle than a poorly organised and incompatible code. This prevents the need to restart a project, saving time and effort in the long run. Furthermore, when other people are able to understand the flow of your code, they are more likely to spot potential pitfalls and errors in the logic of the code, such as identifying mistakes in statistical analyses that may have otherwise been hidden in a disorganised code. This ensures that the code is more robust and reproducible.
 
 ### e) What are the main barriers for scientists to share their data and code, and what could be done to overcome them? (500-700 words)
 
+In the field of biology, many scientists have either failed to reproduce their own or other’s experiments (Baker & Penny, 2016). This is in part due to the unavailability of data and code used in original studies. This remains an issue despite the fact that open science has been shown to help researchers to succeed in terms of citations, media attention, and funding opportunities (McKiernan et al., 2016). The main obstacles that scientists face include knowledge barriers, concerns about reuse, and misaligned career incentives (Gomes et al., 2022).
+
+Knowledge barriers can prevent scientists from sharing their data and code. This includes issues such as not knowing how to organise data in a presentable manner or not knowing the appropriate repositories to use. Furthermore, researchers may be unsure how to share manual workflows involved in their data processing that does not involve code. Additionally, there may be logistical barriers in the transfer and storage of large datasets. Beyond technical barriers, other knowledge barriers can cause unwillingness to share their data and code. For example, researchers may fear the consequences of being proven wrong or they simply do not see the value in open access research.
+
+To target technical barriers, scientists should seek available software and resources to help them organise their data and code, record manual workflows in a systematic manner, and upload them onto relevant repositories. Other actors such as research institutions, funders, and journals should continue to develop such resources and encourage researchers to use them. The scientific community should also leverage on the growth of ‘big data’ to offer support to researchers in storing and managing large datasets. Additionally, frameworks should be developed to target non-technical knowledge barriers. For example, pre-print servers or preregistering studies allow for real-time feedback on data manipulation and coding, addressing the fear of having to retract or correct published results. The long term benefits of open research should also be actively communicated to researchers in order for them to gain vested interest.
+
+Furthermore, concerns about reuse can pose significant barriers to data and code sharing. Researchers may be unwilling to share their data and code as they are concerned about the misinterpretation and subsequent misuse of their work. Additionally, there may be ethical and legal concerns over ownership and rights. This issue is further exacerbated if datasets contain sensitive content, such as interviews with individuals or information about valuable resources or species. Lastly, researchers may be unwilling to invest the time into data and code sharing as they are concerned over the long-term usability and storage of these products.
+
+Barriers involving concerns about reuse can be overcome by addressing the way scientific products are stored and distributed. Researchers can provide metadata that help describe their datasets and processes, ensuring users of these products are aware of the limitations and assumptions involved. Repositories should also allow contributors to set permissions on how their work can be used by others. To facilitate this process, research institutions should support researchers in navigating the legal processes and ethical concerns regarding data and code sharing. Furthermore, if researchers are dealing with sensitive data, they can employ alternatives such as subsetting the data or producing synthetic data. In the long run, researchers also should aim to extend the longevity of their data and code by using long-term storage infrastructure and ensuring backwards compatibility.
+
+Lastly, misaligned career incentives can also hinder data and code sharing. Researchers may be afraid of ‘scooping’, where other researchers conduct analyses that they had originally planned to do. Furthermore, researchers may not believe open research to be beneficial to their careers. Hence, they may not be willing to commit to spending time on the numerous steps involved in the sharing process.
+
+To tackle barriers relating to disincentives, researchers need to overcome their preconceived notions about sharing data and code while the wider scientific community needs to start incentivising open research. Building a robust evidence base for the benefits of open research and clear communication of these ideas could be key to convincing scientists to commit making changes. Additionally, funders, journals, and research institutions should emphasise the importance of data and code sharing in order to move towards achieving collaborative, open research in the scientific community.
