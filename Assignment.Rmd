@@ -185,11 +185,11 @@ This analysis explored the correlation between body mass and flipper length in p
 
 ### a) GitHub
 
-*GitHub link:* <https://github.com/benaiahhoong/ReproducibleAssignment/tree/main>
+*GitHub link:* <https://github.com/benaiahhoong/ReproducibleAssignment>
 
 ### b) Share your repo with a partner, download, and try to run their data pipeline.
 
-*Partner's GitHub link:* <https://github.com/adamblanchflower03/ReproducableFigures>
+*Partner's GitHub link:* <https://github.com/oxfordstudent02/ReproducableFigures>
 
 ### c) Reflect on your experience running their code. (300-500 words)
 
