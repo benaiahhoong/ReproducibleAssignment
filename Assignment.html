@@ -411,7 +411,9 @@ library(palmerpenguins) #dataset comes from this package
 library(here)
 library(janitor)
 library(ggplot2)
-library(svglite)</code></pre>
+library(svglite)
+library(broom)
+library(knitr)</code></pre>
 <p><strong>Clean and check data</strong></p>
 <pre class="r"><code>#load functions that clean data
 source(here(&quot;functions&quot;, &quot;cleaning.R&quot;))
@@ -578,6 +580,36 @@ summary(adelie_regression) #output of linear model</code></pre>
 ## Residual standard error: 5.798 on 149 degrees of freedom
 ## Multiple R-squared:  0.2192, Adjusted R-squared:  0.214 
 ## F-statistic: 41.83 on 1 and 149 DF,  p-value: 1.343e-09</code></pre>
+<pre class="r"><code>#produce simplified table of statistical output
+coefficients &lt;- tidy(adelie_regression) #extract coefficients from analysis
+kable(coefficients) #print simplified table</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">term</th>
+<th align="right">estimate</th>
+<th align="right">std.error</th>
+<th align="right">statistic</th>
+<th align="right">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">(Intercept)</td>
+<td align="right">165.2448126</td>
+<td align="right">3.8492806</td>
+<td align="right">42.928752</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">body_mass_g</td>
+<td align="right">0.0066769</td>
+<td align="right">0.0010323</td>
+<td align="right">6.467848</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
 <pre class="r"><code>#check assumptions
 par(mfrow = c(2, 2)) #create a 2 by 2 grid for diagnostic plots
 plot(adelie_regression) #produce diagnostic plots</code></pre>
@@ -599,7 +631,12 @@ results_figure &lt;- ggplot(adelie_data, aes(x=body_mass_g, y=flipper_length_mm)
     x = &quot;Body mass (g)&quot;,       #x-axis label
     y = &quot;Flipper length (mm)&quot;  #y-axis label
   ) +
-  annotate(&quot;text&quot;, x = 4500, y = 212, label = paste(&quot;Adjusted R² =&quot;, round(r_squared, 3)), size = 5, color = &quot;red3&quot;) + #add R-squared value
+  annotate(&quot;text&quot;,
+           x = 4500,           #adjust x-axis position
+           y = 212,            #adjust y-axis position
+           label = paste(&quot;Adjusted R² =&quot;, round(r_squared, 3)), #adj. R-squared value to 3dp
+           size = 5,           #text size
+           color = &quot;red3&quot;) +   #text colour
   theme_bw() #clean aesthetics
 
 results_figure</code></pre>
