@@ -404,6 +404,7 @@ taken when converting raw data into clean data, analysing the cleaned
 data, and producing figures. I start by loading and cleaning the data so
 that I can decide on a meaningful and feasible scientific question to
 ask.</p>
+<p><strong>Load packages</strong></p>
 <pre class="r"><code>#load relevant packages
 library(tidyverse)
 library(palmerpenguins) #dataset comes from this package
@@ -411,6 +412,7 @@ library(here)
 library(janitor)
 library(ggplot2)
 library(svglite)</code></pre>
+<p><strong>Clean and check data</strong></p>
 <pre class="r"><code>#load functions that clean data
 source(here(&quot;functions&quot;, &quot;cleaning.R&quot;))
 
@@ -487,6 +489,7 @@ exploring the potential relationship between body mass and flipper
 length in the three species of penguins. Hence, I will produce an
 exploratory figure that examines these two variables and save the
 figure.</p>
+<p><strong>Data exploration</strong></p>
 <pre class="r"><code>#subset the data
 subset &lt;- penguins_clean %&gt;% 
   select(species, flipper_length_mm, body_mass_g, )  %&gt;% #subset out species, flipper length, and body mass
@@ -547,6 +550,7 @@ The Q-Q plot shows that the residuals follow a normal distribution, the
 scale-location plot shows that the residuals have equal variance, and
 the residuals vs leverage plot shows that there are no influential
 cases.</p>
+<p><strong>Statistical analysis</strong></p>
 <pre class="r"><code>#filter Adelie penguin data
 adelie_data &lt;- penguins_clean %&gt;% 
   select(species, flipper_length_mm, body_mass_g, )  %&gt;% #subset out species, flipper length, and body mass
@@ -583,6 +587,7 @@ plot(adelie_regression) #produce diagnostic plots</code></pre>
 <h3>Results &amp; Discussion</h3>
 <p>Having run the statistical analysis, the following code is used to
 produce a results figure, which will be discussed below.</p>
+<p><strong>Plotting results</strong></p>
 <pre class="r"><code>#save adjusted R-squared value
 r_squared &lt;- summary(adelie_regression)$adj.r.squared
 

@@ -34,6 +34,8 @@ This figure is a linear regression of flipper length against body mass. The firs
 
 Data pipelines are important in ensuring science and figures are reproducible. Many current research papers present their experimental methodology, but not their methodology in data analysis and figures. This section of the assignment presents a data analysis pipeline using the Palmer Penguin dataset as an example. It details the precise steps taken when converting raw data into clean data, analysing the cleaned data, and producing figures. I start by loading and cleaning the data so that I can decide on a meaningful and feasible scientific question to ask.
 
+**Load packages**
+
 ```{r Load Packages, warning=FALSE, message=FALSE}
 
 #load relevant packages
@@ -45,6 +47,8 @@ library(ggplot2)
 library(svglite)
 
 ```
+
+**Clean and check data**
 
 ```{r Data Cleaning}
 
@@ -78,6 +82,8 @@ penguins_clean #visualise the actual data
 ```
 
 Having looked through the cleaned penguin data, I am interested in exploring the potential relationship between body mass and flipper length in the three species of penguins. Hence, I will produce an exploratory figure that examines these two variables and save the figure.
+
+**Data exploration**
 
 ```{r Data Exploration}
 #subset the data
@@ -123,6 +129,8 @@ From the exploratory figure above, I observe that flipper length and body mass a
 
 To test if there is a significant linear relationship between body mass and flipper length in Adelie penguins, I start by filtering the Adelie penguin data from the cleaned dataset. Following which, I fit a linear regression model to predict flipper length from body mass and test for statistical significance. Finally, I produce diagnostic plots to assess if the assumptions of the linear regression are met. Based on the diagnostic plots, assumptions of a linear regression model are met. The Q-Q plot shows that the residuals follow a normal distribution, the scale-location plot shows that the residuals have equal variance, and the residuals vs leverage plot shows that there are no influential cases.
 
+**Statistical analysis**
+
 ```{r Statistics}
 
 #filter Adelie penguin data
@@ -144,6 +152,8 @@ plot(adelie_regression) #produce diagnostic plots
 ### Results & Discussion
 
 Having run the statistical analysis, the following code is used to produce a results figure, which will be discussed below.
+
+**Plotting results**
 
 ```{r Plotting Results}
 
