@@ -34,6 +34,8 @@ This figure is a linear regression of flipper length against body mass but it is
 
 -   Colour: the regression line is plotted in grey, which matches the background colour, making it potentially difficult to identify. The use of a more contrasting colour would be better.
 
+-   Title: there is no figure title or caption, so readers cannot tell what the figure actually represents.
+
 -   Raw data: the raw data is not plotted in this figure. This means that readers are unable to tell the sample size or the variation in the data. Furthermore, this regression is done using data from all three species of penguins, violating the assumption that each datapoint is independent as there may be species-specific trends which cannot be generalised across all three species. Plotting of the raw data and colour-coding them will provide more information for the readers.
 
 -   Confidence interval: the confidence interval for the regression is not plotted. This also obscures from the readers the possible range of values that the regression parameters can take.
@@ -117,7 +119,8 @@ exploratory_figure <- ggplot(subset, aes(x = body_mass_g, y = flipper_length_mm,
   labs(
     x = "Body mass (g)",       #x-axis label
     y = "Flipper length (mm)", #y-axis label
-    colour = "Species"
+    title = "Exploratory scatterplot of flipper length against body mass", #figure title
+    colour = "Species" #legend title
   ) +
   theme_bw() #clean aesthetics
 exploratory_figure
@@ -183,8 +186,9 @@ results_figure <- ggplot(adelie_data, aes(x=body_mass_g, y=flipper_length_mm)) +
   geom_point(colour="darkorange") +                       #scatter plot
   geom_smooth(method = "lm", se = TRUE, color="red3") +   #linear regression
   labs(
-    x = "Body mass (g)",       #x-axis label
-    y = "Flipper length (mm)"  #y-axis label
+    x = "Body mass (g)",        #x-axis label
+    y = "Flipper length (mm)",  #y-axis label
+    title = "Linear regression of flipper length against body mass in Adelie penguins" #figure title
   ) +
   annotate("text",
            x = 4500,           #adjust x-axis position
