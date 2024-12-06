@@ -364,28 +364,25 @@ Assignment</h1>
 <h3>b) Write about how your design choices mislead the reader about the
 underlying data (100-300 words).</h3>
 <p>This figure is a linear regression of flipper length against body
-mass. The first misleading design choice is that the data used for the
-linear regression comes from three different species of penguins. Even
-though the regression is accurate, the lack of differentiation of
-species may hide any underlying species-specific trends, hence
-misleading readers into thinking that the correlation between body mass
-and flipper length can be generalised between species even though this
-is not justified. A better design choice may be to conduct three
-separate linear regressions, one for each species, and colour them
-differently, with a legend to label each regression line. Additionally,
-variation in the data is not shown in the figure. The raw data points
-were not plotted in the figure and the confidence interval of the
-regression line is not plotted. These two poor design choices leave the
-readers without information on the variation in the data. Plotting the
-raw data uncovers the underlying data and makes it accessible to the
-readers. Furthermore, the text size of the axes titles and numbers are
-extremely small and difficult to read. This may cause mistakes in
-reading the variables and the values in the regression. Increasing the
-text sizes would imrpove the figure. Lastly, the regression line is
-plotted in grey against a grey background. This design choice makes it
-difficult to distinguish the actual plotted line from the background. A
-better design choice would choose a more contrasting colour for the
-regression line so that it stands out against the background.</p>
+mass but it is a bad figure.</p>
+<ul>
+<li><p>Text size: the text size of the axes labels and numbers are too
+small and hence difficult to read.</p></li>
+<li><p>Colour: the regression line is plotted in grey, which matches the
+background colour, making it potentially difficult to identify. The use
+of a more contrasting colour would be better.</p></li>
+<li><p>Raw data: the raw data is not plotted in this figure. This means
+that readers are unable to tell the sample size or the variation in the
+data. Furthermore, this regression is done using data from all three
+species of penguins, violating the assumption that each datapoint is
+independent as there may be species-specific trends which cannot be
+generalised across all three species. Plotting of the raw data and
+colour-coding them will provide more information for the
+readers.</p></li>
+<li><p>Confidence interval: the confidence interval for the regression
+is not plotted. This also obscures from the readers the possible range
+of values that the regression parameters can take.</p></li>
+</ul>
 <hr />
 </div>
 </div>
@@ -393,15 +390,19 @@ regression line so that it stands out against the background.</p>
 <h2>QUESTION 2: Data Pipeline</h2>
 <div id="introduction" class="section level3">
 <h3>Introduction</h3>
-<p>Data pipelines are important in ensuring science and figures are
-reproducible. Many current research papers present their experimental
+<p>Data pipelines are important in ensuring reproducible science and
+figures. Many current research papers present their experimental
 methodology, but not their methodology in data analysis and figures.
 This section of the assignment presents a data analysis pipeline using
 the Palmer Penguin dataset as an example. It details the precise steps
 taken when converting raw data into clean data, analysing the cleaned
 data, and producing figures. I start by loading and cleaning the data so
 that I can decide on a meaningful and feasible scientific question to
-ask.</p>
+ask. I then create a figure to explore the correlation between flipper
+length and body mass in penguins. Following which, I perform a linear
+regression analysis to test for a linear relationship between flipper
+length and body mass in Adelie penguins and assess if body mass is a
+good predictor for flipper length.</p>
 <p><strong>Load packages</strong></p>
 <pre class="r"><code>#load relevant packages
 library(tidyverse)
@@ -484,12 +485,12 @@ colnames(penguins_clean) #visualise the cleaned column names</code></pre>
 ## # ℹ 7 more variables: clutch_completion &lt;chr&gt;, date_egg &lt;date&gt;,
 ## #   culmen_length_mm &lt;dbl&gt;, culmen_depth_mm &lt;dbl&gt;, flipper_length_mm &lt;dbl&gt;,
 ## #   body_mass_g &lt;dbl&gt;, sex &lt;chr&gt;</code></pre>
+<p><strong>Data exploration</strong></p>
 <p>Having looked through the cleaned penguin data, I am interested in
 exploring the potential relationship between body mass and flipper
 length in the three species of penguins. Hence, I will produce an
 exploratory figure that examines these two variables and save the
 figure.</p>
-<p><strong>Data exploration</strong></p>
 <pre class="r"><code>#subset the data
 subset &lt;- penguins_clean %&gt;% 
   select(species, flipper_length_mm, body_mass_g, )  %&gt;% #subset out species, flipper length, and body mass
@@ -526,9 +527,9 @@ dev.off()</code></pre>
 <h3>Hypothesis</h3>
 <p>From the exploratory figure above, I observe that flipper length and
 body mass are positively correlated in all three species of penguins.
-The Adelie penguins seem to have more dispersed data points and hence a
-larger variation in the data. Hence, it would be interesting to test if
-there is a significant linear relationship between body mass and flipper
+The Adelie penguins seem to have more dispersed data points and a larger
+variation in the data. Hence, it would be interesting to test if there
+is a significant linear relationship between body mass and flipper
 length in the Adelie penguins.</p>
 <ul>
 <li>Null hypothesis: there is no significant linear relationship between
@@ -615,8 +616,17 @@ plot(adelie_regression) #produce diagnostic plots</code></pre>
 </div>
 <div id="results-discussion" class="section level3">
 <h3>Results &amp; Discussion</h3>
-<p>Having run the statistical analysis, the following code is used to
-produce a results figure, which will be discussed below.</p>
+<p>From the output of the linear model, there is a significant linear
+relationship between body mass and flipper length in Adelie penguins
+(t=6.47, df=149, p&lt;0.001). Hence, we can reject the null hypothesis
+and conclude that there is a significant linear relationship between
+body mass and flipper length in Adelie penguins. However, the adjusted
+R-squared value of 0.214 is considerably low, meaning that only about
+21% of the variation in flipper length can be explained by the variation
+in body mass. Hence, there may be other important variables affecting
+flipper length. Furthermore, there could be sex differences that were
+not addressed by this analysis as the dataset contained measurements
+from both male and female Adelie penguins.</p>
 <p><strong>Plotting results</strong></p>
 <pre class="r"><code>#save adjusted R-squared value
 r_squared &lt;- summary(adelie_regression)$adj.r.squared
@@ -650,17 +660,6 @@ print(results_figure)</code></pre>
 <pre class="r"><code>dev.off()</code></pre>
 <pre><code>## quartz_off_screen 
 ##                 2</code></pre>
-<p>From the output of the linear model, there is a significant linear
-relationship between body mass and flipper length in Adelie penguins
-(t=6.47, df=149, p&lt;0.001). Hence, we can reject the null hypothesis
-and conclude that there is a significant linear relationship between
-body mass and flipper length in Adelie penguins. However, the adjusted
-R-squared value of 0.214 is considerably low, meaning that only about
-21% of the variation in flipper length can be explained by the variation
-in body mass. Hence, there may be other important variables affecting
-flipper length. Furthermore, there could be sex differences that were
-not addressed by this analysis as the dataset contained measurements
-from both male and female Adelie penguins.</p>
 </div>
 <div id="conclusion" class="section level3">
 <h3>Conclusion</h3>
@@ -720,7 +719,9 @@ plots and the figures were only used once. To improve understandability
 and reproducibility, I think that it may be better to simply include the
 source code for the function in the main code as it better explains the
 inputs used to generate the figures. Instead, I had to refer to the
-functions to understand how the figures were created.</li>
+functions to understand how the figures were created. An alternative
+would be to annotate the main code using functions to inform readers
+what the inputs into the functions represent.</li>
 </ul>
 <p><em>If you needed to alter your partner’s figure using their code, do
 you think that would be easy or difficult, and why?</em></p>
@@ -776,14 +777,14 @@ up long lines of codes into shorter lines to enhance readability and
 make space for comments to be written next to each line of code. This
 allows someone who was not involved in the coding process to be able to
 understand the flow of the code, allowing them to make changes easily.
-Packages such as here and renv are extremely important to ensure that
-the same code would be compatible on other computers and versions of R.
-The here package also allows for better privacy as you do not need to
-write the names of your working directory and folders into the
-code.</p></li>
+Packages such as <code>here</code> and <code>renv</code> are extremely
+important to ensure that the same code would be compatible on other
+computers and versions of R. The <code>here</code> package also allows
+for better privacy as you do not need to write the names of your working
+directory and folders into the code.</p></li>
 <li><p>While writing code for other people is not an easy task due to
 the time and effort needed to organise the code and upload it onto
-online repositories such as Github, it is extremely useful both for the
+online repositories such as GitHub, it is extremely useful both for the
 coder and for others. Writing code with others in mind also includes
 writing code for your future self. You may choose to return to a project
 weeks, months, or even years later, and a well-organised and compatible
