@@ -4,8 +4,8 @@ output:
   html_document: default
   pdf_document: default
 format:
-  html:
-    embed-resources:true
+html:
+embed-resources: true
 ---
 
 ## QUESTION 01: Data Visualisation for Science Communication
