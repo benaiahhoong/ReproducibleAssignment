@@ -3,7 +3,6 @@ title: "Reproducible Science & Figures Assignment"
 output:
   html_document: default
   pdf_document: default
-date: "2024-11-23"
 format:
   html:
     embed-resources:true
@@ -29,7 +28,15 @@ ggplot(penguins_raw, aes(x=`Body Mass (g)`, y=`Flipper Length (mm)`)) + geom_smo
 
 ### b) Write about how your design choices mislead the reader about the underlying data (100-300 words).
 
-This figure is a linear regression of flipper length against body mass. The first misleading design choice is that the data used for the linear regression comes from three different species of penguins. Even though the regression is accurate, the lack of differentiation of species may hide any underlying species-specific trends, hence misleading readers into thinking that the correlation between body mass and flipper length can be generalised between species even though this is not justified. A better design choice may be to conduct three separate linear regressions, one for each species, and colour them differently, with a legend to label each regression line. Additionally, variation in the data is not shown in the figure. The raw data points were not plotted in the figure and the confidence interval of the regression line is not plotted. These two poor design choices leave the readers without information on the variation in the data. Plotting the raw data uncovers the underlying data and makes it accessible to the readers. Furthermore, the text size of the axes titles and numbers are extremely small and difficult to read. This may cause mistakes in reading the variables and the values in the regression. Increasing the text sizes would imrpove the figure. Lastly, the regression line is plotted in grey against a grey background. This design choice makes it difficult to distinguish the actual plotted line from the background. A better design choice would choose a more contrasting colour for the regression line so that it stands out against the background.
+This figure is a linear regression of flipper length against body mass but it is a bad figure.
+
+-   Text size: the text size of the axes labels and numbers are too small and hence difficult to read.
+
+-   Colour: the regression line is plotted in grey, which matches the background colour, making it potentially difficult to identify. The use of a more contrasting colour would be better.
+
+-   Raw data: the raw data is not plotted in this figure. This means that readers are unable to tell the sample size or the variation in the data. Furthermore, this regression is done using data from all three species of penguins, violating the assumption that each datapoint is independent as there may be species-specific trends which cannot be generalised across all three species. Plotting of the raw data and colour-coding them will provide more information for the readers.
+
+-   Confidence interval: the confidence interval for the regression is not plotted. This also obscures from the readers the possible range of values that the regression parameters can take.
 
 ------------------------------------------------------------------------
 
